@@ -1,10 +1,7 @@
 import { Link, NavLink } from "react-router-dom"
-import { useNavigate } from "react-router-dom"
-import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa"
+import { FaSignInAlt, FaUser } from "react-icons/fa"
 
 import { useStore } from "../store/StoreContext"
-
-import Spinner from "./Spinner"
 
 const Header = () => {
     const { logoutUser, user } = useStore()
@@ -12,10 +9,6 @@ const Header = () => {
     const handleLogout = () => {
         logoutUser()
     }
-
-    // if (isLoading) {
-    //     return <Spinner />
-    // }
 
     return (
         <header className="w-full bg-slate-900 px-3 py-1 flex justify-between place-center items-center mb-12">
