@@ -1,38 +1,17 @@
-import { toast } from "react-toastify"
-import { useDispatch, useSelector } from "react-redux"
-import { useEffect } from "react"
+import { useStore } from "../store/StoreContext"
 
-import { getMovies, resetState } from "../features/movies/movieSlice"
-import {
-    getFavorites,
-    resetState as resetFavoritesState,
-} from "../features/favorites/favoritesSlice"
-
-import Spinner from "../components/Spinner"
 import MovieList from "../components/MovieList"
+import PageSelect from "../components/PageSelect"
+import SelectGenre from "../components/SelectGenre"
 
 const Main = () => {
-    const dispatch = useDispatch()
-
-    const { movies, isLoading, isError, errorMessage } = useSelector(
-        (state) => state.movie
-    )
-
-    // const { user } = useSelector((state) => state.auth)
-
-    useEffect(() => {
-        dispatch(getMovies({ offset: 0, amount: 20 }))
-
-        dispatch(getFavorites())
-    }, [dispatch])
-
-    if (isLoading) {
-        return <Spinner />
-    }
+    const { movies } = useStore()
 
     return (
         <div>
+            <SelectGenre />
             <MovieList movies={movies} />
+            <PageSelect />
         </div>
     )
 }

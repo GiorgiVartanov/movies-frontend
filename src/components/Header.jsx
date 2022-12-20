@@ -1,32 +1,24 @@
 import { Link, NavLink } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { FaSignInAlt, FaSignOutAlt, FaUser } from "react-icons/fa"
 
-import { logoutUser } from "../features/auth/authSlice"
-import { resetState } from "../features/favorites/favoritesSlice"
+import { useStore } from "../store/StoreContext"
 
 import Spinner from "./Spinner"
 
 const Header = () => {
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-
-    const { user, isLoading, isError, isSuccess, message } = useSelector(
-        (state) => state.auth
-    )
+    const { logoutUser, user } = useStore()
 
     const handleLogout = () => {
-        dispatch(resetState())
-        dispatch(logoutUser())
+        logoutUser()
     }
 
-    if (isLoading) {
-        return <Spinner />
-    }
+    // if (isLoading) {
+    //     return <Spinner />
+    // }
 
     return (
-        <header className="w-full bg-slate-900 px-3 py-1 flex justify-between place-center items-center">
+        <header className="w-full bg-slate-900 px-3 py-1 flex justify-between place-center items-center mb-12">
             <h1 className="text-slate-50 text-xl px-2 py-1">
                 <Link to="/">Movies</Link>
             </h1>

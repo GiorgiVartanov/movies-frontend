@@ -2,13 +2,14 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { FaUser } from "react-icons/fa"
-import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import { toast } from "react-toastify"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
 
-import { registerUser, resetState } from "../features/auth/authSlice"
+// import { registerUser, resetState } from "../features/auth/authSlice"
+import { useStore } from "../store/StoreContext"
+import { setUser } from "../store/actions"
 
 import Input from "../components/Input"
 import Spinner from "../components/Spinner"
@@ -16,11 +17,8 @@ import Button from "../components/Button"
 
 const Register = () => {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
 
-    const { user, isLoading, isError, isSuccess, errorMessage } = useSelector(
-        (state) => state.auth
-    )
+    const { registerUser, user } = useStore()
 
     const schema = yup.object().shape({
         name: yup.string().max(30).required(),
@@ -46,28 +44,22 @@ const Register = () => {
     })
 
     useEffect(() => {
-        if (isError) {
-            toast.error(errorMessage)
-        }
-
-        if (isSuccess || user) {
+        if (user) {
             navigate("/")
         }
 
-        dispatch(resetState())
-
         reset()
-    }, [user, isError, isSuccess, navigate, dispatch, errorMessage, reset])
+    }, [user, navigate, reset])
 
     const onSubmit = async (data) => {
-        dispatch(registerUser(data))
+        registerUser(data)
 
         reset()
     }
 
-    if (isLoading) {
-        return <Spinner />
-    }
+    // if (isLoading) {
+    //     return <Spinner />
+    // }
 
     return (
         <div className="px-2 mb-1 max-w-sm mx-auto my-32">

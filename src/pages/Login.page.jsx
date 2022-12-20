@@ -6,9 +6,8 @@ import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
-import { useDispatch, useSelector } from "react-redux"
 
-import { loginUser, resetState } from "../features/auth/authSlice"
+import { useStore } from "../store/StoreContext"
 
 import Input from "../components/Input"
 import Spinner from "../components/Spinner"
@@ -16,11 +15,8 @@ import Button from "../components/Button"
 
 const Login = () => {
     const navigate = useNavigate()
-    const dispatch = useDispatch()
 
-    const { user, isLoading, isError, isSuccess, errorMessage } = useSelector(
-        (state) => state.auth
-    )
+    const { loginUser, user } = useStore()
 
     const schema = yup.object().shape({
         email: yup.string().email("please enter valid email").required(),
@@ -37,27 +33,17 @@ const Login = () => {
     })
 
     useEffect(() => {
-        if (isError) {
-            toast.error(errorMessage)
-        }
-
-        if (isSuccess || user) {
+        if (user) {
             navigate("/")
         }
 
-        dispatch(resetState())
-
         reset()
-    }, [user, isError, isSuccess, errorMessage, navigate, dispatch, reset])
+    }, [user, navigate, reset])
 
     const onSubmit = (data) => {
-        dispatch(loginUser(data))
+        loginUser(data)
 
         reset()
-    }
-
-    if (isLoading) {
-        return <Spinner />
     }
 
     return (

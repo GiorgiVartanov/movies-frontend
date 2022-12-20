@@ -3,15 +3,17 @@ import { Link } from "react-router-dom"
 import { TbStar, TbStarOff } from "react-icons/tb"
 import { IoStar } from "react-icons/io5"
 import { BiLinkExternal } from "react-icons/bi"
-import { useDispatch } from "react-redux"
+
 import { useOnClickOutside } from "../hooks/useOnClickOutside"
-import { addFavorite } from "../features/favorites/favoritesSlice"
+import { useStore } from "../store/StoreContext"
 
 const MovieCard = ({ movie, isFavorite, className }) => {
-    const dispatch = useDispatch()
+    const { addFavorite, removeFavorite } = useStore()
 
     const [isActive, setIsActive] = useState(false)
     const [isButtonHovered, setIsButtonHovered] = useState(false)
+
+    // const [addFavorite] = useAddFavoriteMutation()
 
     const ref = useRef()
 
@@ -31,9 +33,9 @@ const MovieCard = ({ movie, isFavorite, className }) => {
         setIsButtonHovered(false)
     }
 
-    const handleAddToFavorite = () => {
-        console.log(`adding ${movie._id} to favorites`)
-        dispatch(addFavorite(movie._id))
+    const handleOnClick = () => {
+        if (isFavorite) removeFavorite(movie._id)
+        else addFavorite(movie._id)
     }
 
     useOnClickOutside(ref, handleClickOutside)
@@ -45,7 +47,7 @@ const MovieCard = ({ movie, isFavorite, className }) => {
                     <button
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
-                        onClick={handleAddToFavorite}
+                        onClick={handleOnClick}
                         className="hover:text-slate-900 delay-75 duration-200 ease-out"
                     >
                         {isFavorite ? (
@@ -102,7 +104,7 @@ const MovieCard = ({ movie, isFavorite, className }) => {
                     movie.poster_path
                 }
                 alt={movie.title}
-                className="group-hover:shadow-xl"
+                className="group-hover:shadow-xl group-hover:outline-slate-900 delay-75 duration-200 ease-out shadow-slate-900 outline outline-transparent outline-1"
             />
             <p className="text-sm">{movie.title}</p>
             {isActive ? renderCardActivePanel() : ""}
