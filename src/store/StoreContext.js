@@ -63,7 +63,7 @@ const StoreProvider = ({ children }) => {
                 const data = await getAllGenres()
                 dispatch(saveGenresToStore(data.data))
             } catch (error) {
-                toast("something went wrong...  ", error.message)
+                toast.error("something went wrong...  ", error.message)
             }
         }
 
@@ -77,7 +77,7 @@ const StoreProvider = ({ children }) => {
                     const data = await getAllFavorites(user.token)
                     dispatch(saveFavoritesToStore(data.data))
                 } catch (error) {
-                    toast("something went wrong...  ", error.message)
+                    toast.error("something went wrong...  ", error.message)
                 }
             }
 
@@ -91,7 +91,7 @@ const StoreProvider = ({ children }) => {
             dispatch(setUser(user.data))
             localStorage.setItem("user", JSON.stringify(user.data))
         } catch (error) {
-            toast("something went wrong...  ", error.message)
+            toast.error("something went wrong...  ", error.message)
         }
     }
 
@@ -101,9 +101,8 @@ const StoreProvider = ({ children }) => {
             dispatch(setUser(user.data))
             localStorage.setItem("user", JSON.stringify(user.data))
         } catch (error) {
-            if (error.response.status === 400) toast("wrong password")
-            else toast("something went wrong...  ", error.message)
-            // console.log("something went wrong...  ", error.message)
+            if (error.response.status === 400) toast.error("wrong password")
+            else toast.error("something went wrong...  ", error.message)
         }
     }
 
@@ -121,8 +120,9 @@ const StoreProvider = ({ children }) => {
                     state.movies.filter((movie) => movie._id === movieId)[0]
                 )
             )
+            toast.success("successfully added movie to favorites")
         } catch (error) {
-            toast("something went wrong...", error.message)
+            toast.error("something went wrong...", error.message)
         }
     }
 
@@ -134,8 +134,9 @@ const StoreProvider = ({ children }) => {
                     state.favorites.filter((movie) => movie._id !== movieId)
                 )
             )
+            toast.success("successfully removed movie to favorites")
         } catch (error) {
-            toast("something went wrong...", error.message)
+            toast.error("something went wrong...", error.message)
         }
     }
 
