@@ -2,7 +2,6 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { FaSignInAlt } from "react-icons/fa"
-import { toast } from "react-toastify"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
@@ -10,7 +9,6 @@ import { Link } from "react-router-dom"
 import { useStore } from "../store/StoreContext"
 
 import Input from "../components/Input"
-import Spinner from "../components/Spinner"
 import Button from "../components/Button"
 
 const Login = () => {

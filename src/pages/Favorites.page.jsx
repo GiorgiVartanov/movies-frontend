@@ -1,10 +1,8 @@
-import { toast } from "react-toastify"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { useStore } from "../store/StoreContext"
 
-import Spinner from "../components/Spinner"
 import MovieList from "../components/MovieList"
 
 const Favorites = () => {
@@ -17,10 +15,6 @@ const Favorites = () => {
             navigate("/")
         }
     }, [user, navigate])
-
-    // if (isLoading) {
-    //     return <Spinner />
-    // }
 
     return (
         <div>

@@ -3,16 +3,12 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { FaUser } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
-import { toast } from "react-toastify"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
 
-// import { registerUser, resetState } from "../features/auth/authSlice"
 import { useStore } from "../store/StoreContext"
-import { setUser } from "../store/actions"
 
 import Input from "../components/Input"
-import Spinner from "../components/Spinner"
 import Button from "../components/Button"
 
 const Register = () => {
