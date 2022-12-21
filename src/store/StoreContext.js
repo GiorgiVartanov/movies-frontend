@@ -81,7 +81,13 @@ const StoreProvider = ({ children }) => {
 
             getMovies()
         }
-    }, [state.user, state.page, state.amount, state.chosenGenres])
+    }, [
+        state.blocked,
+        state.user,
+        state.page,
+        state.amount,
+        state.chosenGenres,
+    ])
 
     useEffect(() => {
         const getMovies = async () => {
@@ -117,7 +123,7 @@ const StoreProvider = ({ children }) => {
         if (state.user) {
             const getBlocked = async () => {
                 try {
-                    const data = await getBlockedIds(user.token)
+                    const data = await getBlockedIds(state.user.token)
                     dispatch(saveBlockedToStore(data.data))
                 } catch (error) {
                     toast.error("something went wrong...  ", error.message)
@@ -160,7 +166,7 @@ const StoreProvider = ({ children }) => {
 
     const addFavorite = async (movieId) => {
         try {
-            await addFavoriteMovie(movieId, user.token)
+            await addFavoriteMovie(movieId, state.user.token)
             dispatch(
                 addFavoriteToStore(
                     state.movies.filter((movie) => movie._id === movieId)[0]
@@ -213,8 +219,9 @@ const StoreProvider = ({ children }) => {
     }
 
     const addBlockedMovie = async (movieId) => {
+        if (!state.user) return
         try {
-            await blockMovie(movieId, user.token)
+            await blockMovie(movieId, state.user.token)
             dispatch(saveBlockedToStore([...state.blocked, movieId]))
         } catch (error) {
             console.log(error)

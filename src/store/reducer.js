@@ -4,6 +4,8 @@ export const reducer = (state, action) => {
             return { ...state, movies: action.payload }
         case "SAVE_FAVORITES_TO_STORE":
             return { ...state, favorites: action.payload }
+        case "SAVE_BLOCKED_TO_STORE":
+            return { ...state, blocked: action.payload }
         case "ADD_FAVORITE_TO_STORE":
             return { ...state, favorites: [...state.favorites, action.payload] }
         case "SAVE_GENRES_TO_STORE":
