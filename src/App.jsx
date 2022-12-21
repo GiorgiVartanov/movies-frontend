@@ -12,7 +12,7 @@ import Footer from "./components/Footer"
 
 const App = () => {
     return (
-        <div className="font-poppins">
+        <div className="font-poppins flex flex-col justify-between h-screen">
             <Header />
             <Routes>
                 <Route
