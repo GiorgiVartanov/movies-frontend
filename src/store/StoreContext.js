@@ -15,6 +15,7 @@ import {
 } from "./actions"
 import {
     getAllMovies,
+    getFilteredMovies,
     getAllFavorites,
     addFavoriteMovie,
     removeFavoriteMovie,
@@ -46,22 +47,41 @@ const StoreProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     useEffect(() => {
-        const getMovies = async () => {
-            try {
-                const data = await getAllMovies(
-                    state.page * state.amount,
-                    state.amount,
-                    state.chosenGenres.join()
-                )
-                dispatch(saveMoviesToStore(data.data))
-            } catch (error) {
-                toast.error("something went wrong...  ", error.message)
-                console.log(error)
+        if (state.user) {
+            const getMovies = async () => {
+                try {
+                    const data = await getFilteredMovies(
+                        state.page * state.amount,
+                        state.amount,
+                        state.chosenGenres.join(),
+                        state.user.token
+                    )
+                    dispatch(saveMoviesToStore(data.data))
+                } catch (error) {
+                    toast.error("something went wrong...  ", error.message)
+                    console.log(error)
+                }
             }
-        }
 
-        getMovies()
-    }, [state.page, state.amount, state.chosenGenres])
+            getMovies()
+        } else {
+            const getMovies = async () => {
+                try {
+                    const data = await getAllMovies(
+                        state.page * state.amount,
+                        state.amount,
+                        state.chosenGenres.join()
+                    )
+                    dispatch(saveMoviesToStore(data.data))
+                } catch (error) {
+                    toast.error("something went wrong...  ", error.message)
+                    console.log(error)
+                }
+            }
+
+            getMovies()
+        }
+    }, [state.user, state.page, state.amount, state.chosenGenres])
 
     useEffect(() => {
         const getMovies = async () => {
@@ -193,8 +213,12 @@ const StoreProvider = ({ children }) => {
     }
 
     const addBlockedMovie = async (movieId) => {
-        await blockMovie(movieId, user.token)
-        dispatch(saveBlockedToStore([...state.blocked, movieId]))
+        try {
+            await blockMovie(movieId, user.token)
+            dispatch(saveBlockedToStore([...state.blocked, movieId]))
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const store = {
