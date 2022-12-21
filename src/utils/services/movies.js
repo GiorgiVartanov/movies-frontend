@@ -22,7 +22,7 @@ export const addFavoriteMovie = (movieId, token) =>
     )
 
 export const removeFavoriteMovie = (movieId, token) =>
-    ajax.delete(`/favorites/id=${movieId}`, {
+    ajax.delete(`/favorites/${movieId}`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
