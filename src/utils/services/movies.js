@@ -27,3 +27,28 @@ export const removeFavoriteMovie = (movieId, token) =>
             Authorization: `Bearer ${token}`,
         },
     })
+
+export const getBlockedIds = (token) =>
+    ajax.get("/block/ids", {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })
+
+export const blockMovie = (movieId, token) =>
+    ajax.post(
+        "/block",
+        { movieId: movieId },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    )
+
+export const unblockMovie = (movieId, token) =>
+    ajax.delete(`/block/${movieId}`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    })

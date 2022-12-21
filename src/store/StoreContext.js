@@ -6,6 +6,7 @@ import {
     saveMoviesToStore,
     saveFavoritesToStore,
     addFavoriteToStore,
+    saveBlockedToStore,
     saveGenresToStore,
     setNewPage,
     setNewAmount,
@@ -17,6 +18,9 @@ import {
     getAllFavorites,
     addFavoriteMovie,
     removeFavoriteMovie,
+    getBlockedIds,
+    blockMovie,
+    // unblockMovie,
 } from "../utils/services/movies"
 import { getAllGenres } from "../utils/services/genres"
 import { register, login } from "../utils/services/auth"
@@ -30,6 +34,7 @@ const user = JSON.parse(localStorage.getItem("user"))
 const initialState = {
     movies: [],
     favorites: [],
+    blocked: [],
     genres: [],
     chosenGenres: [],
     page: 0,
@@ -85,6 +90,22 @@ const StoreProvider = ({ children }) => {
             }
 
             getFavorites()
+        }
+    }, [state.user])
+
+    useEffect(() => {
+        if (state.user) {
+            const getBlocked = async () => {
+                try {
+                    const data = await getBlockedIds(user.token)
+                    dispatch(saveBlockedToStore(data.data))
+                } catch (error) {
+                    toast.error("something went wrong...  ", error.message)
+                    console.log(error)
+                }
+            }
+
+            getBlocked()
         }
     }, [state.user])
 
@@ -171,6 +192,11 @@ const StoreProvider = ({ children }) => {
         )
     }
 
+    const addBlockedMovie = async (movieId) => {
+        await blockMovie(movieId, user.token)
+        dispatch(saveBlockedToStore([...state.blocked, movieId]))
+    }
+
     const store = {
         ...state,
         dispatch,
@@ -183,6 +209,7 @@ const StoreProvider = ({ children }) => {
         removeSelectedGenre,
         addFavorite,
         removeFavorite,
+        addBlockedMovie,
     }
 
     return (
