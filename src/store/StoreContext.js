@@ -153,7 +153,6 @@ const StoreProvider = ({ children }) => {
 
     const setAmount = (amount) => {
         dispatch(setNewAmount(amount))
-        toast.success(`successfully changed movies per page to ${amount}`)
     }
 
     const addSelectedGenre = (genre) => {
