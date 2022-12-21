@@ -33,7 +33,11 @@ const Movie = () => {
                     {movie.title}
                 </h1>
                 <p className="text-slate-800">{movie.overview}</p>
-                <GenreList genres={movie.genre_ids} />
+                <GenreList
+                    genres={movie.genre_ids}
+                    className="md:ml-0 md:justify-left md:pl-0"
+                    showAlert={true}
+                />
             </div>
         </div>
     )

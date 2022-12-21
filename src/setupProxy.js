@@ -4,7 +4,7 @@ module.exports = function (app) {
     app.use(
         "/api",
         createProxyMiddleware({
-            target: "https://movie-backend-7vfd.onrender.com/api",
+            target: process.env.REACT_APP_BACKEND_URL,
             changeOrigin: true,
         })
     )

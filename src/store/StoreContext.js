@@ -50,7 +50,8 @@ const StoreProvider = ({ children }) => {
                 )
                 dispatch(saveMoviesToStore(data.data))
             } catch (error) {
-                toast("something went wrong...  ", error.message)
+                toast.error("something went wrong...  ", error.message)
+                console.log(error)
             }
         }
 
@@ -64,6 +65,7 @@ const StoreProvider = ({ children }) => {
                 dispatch(saveGenresToStore(data.data))
             } catch (error) {
                 toast.error("something went wrong...  ", error.message)
+                console.log(error)
             }
         }
 
@@ -78,6 +80,7 @@ const StoreProvider = ({ children }) => {
                     dispatch(saveFavoritesToStore(data.data))
                 } catch (error) {
                     toast.error("something went wrong...  ", error.message)
+                    console.log(error)
                 }
             }
 
@@ -92,6 +95,7 @@ const StoreProvider = ({ children }) => {
             localStorage.setItem("user", JSON.stringify(user.data))
         } catch (error) {
             toast.error("something went wrong...  ", error.message)
+            console.log(error)
         }
     }
 
@@ -103,13 +107,14 @@ const StoreProvider = ({ children }) => {
         } catch (error) {
             if (error.response.status === 400) toast.error("wrong password")
             else toast.error("something went wrong...  ", error.message)
+            console.log(error)
         }
     }
 
     const logoutUser = () => {
+        localStorage.removeItem("user")
         dispatch(setUser(null))
         dispatch(saveFavoritesToStore([]))
-        localStorage.removeItem("user")
     }
 
     const addFavorite = async (movieId) => {
@@ -123,6 +128,7 @@ const StoreProvider = ({ children }) => {
             toast.success("successfully added movie to favorites")
         } catch (error) {
             toast.error("something went wrong...", error.message)
+            console.log(error)
         }
     }
 
@@ -137,6 +143,7 @@ const StoreProvider = ({ children }) => {
             toast.success("successfully removed movie to favorites")
         } catch (error) {
             toast.error("something went wrong...", error.message)
+            console.log(error)
         }
     }
 
@@ -146,6 +153,7 @@ const StoreProvider = ({ children }) => {
 
     const setAmount = (amount) => {
         dispatch(setNewAmount(amount))
+        toast.success(`successfully changed movies per page to ${amount}`)
     }
 
     const addSelectedGenre = (genre) => {

@@ -8,6 +8,7 @@ import Favorites from "./pages/Favorites.page"
 import Register from "./pages/Register.page"
 import Login from "./pages/Login.page"
 import Movie from "./pages/Movie.page"
+import Footer from "./components/Footer"
 
 const App = () => {
     return (
@@ -35,6 +36,7 @@ const App = () => {
                     element={<Movie />}
                 />
             </Routes>
+            <Footer />
             <ToastContainer
                 position="bottom-right"
                 autoClose={5000}
