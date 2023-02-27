@@ -1,17 +1,26 @@
-import { useStore } from "../store/StoreContext"
+import { useMovieStore } from "../store/context/MovieContext"
 
 import MovieList from "../components/MovieList"
 import PageSelect from "../components/PageSelect"
 import SelectGenre from "../components/SelectGenre"
+import Spinner from "../components/Spinner"
 
 const Main = () => {
-    const { movies } = useStore()
+    const { movies, amount, fetchMovies, isLoading, isError, errorMessage } =
+        useMovieStore()
 
     return (
         <div>
             <SelectGenre />
-            <MovieList movies={movies} />
-            <PageSelect />
+            <MovieList
+                movies={movies}
+                fetchMore={fetchMovies}
+                amount={amount}
+                isLoading={isLoading}
+                isError={isError}
+                errorMessage={errorMessage}
+            />
+            {/* <PageSelect /> */}
         </div>
     )
 }

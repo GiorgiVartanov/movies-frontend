@@ -1,10 +1,11 @@
-import { useStore } from "../store/StoreContext"
+import { useMovieStore } from "../store/context/MovieContext"
 
-const ShowPerPage = ({ options, className }) => {
-    const { amount, setAmount } = useStore()
+const ShowPerPage = ({ options, onSelect, className }) => {
+    const { amount, setAmount } = useMovieStore()
 
     const handleSelect = (e) => {
         setAmount(e.target.value)
+        onSelect()
     }
 
     return (

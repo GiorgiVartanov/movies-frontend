@@ -1,17 +1,17 @@
-import { useStore } from "../store/StoreContext"
+// import { useMovieStore } from "../store/context/MovieContext"
 
 import ShowPerPage from "./ShowPerPage"
 
-const PageSelect = () => {
-    const { page, setPage } = useStore()
+const PageSelect = ({ nextPage, prevPage, goToFirstPage, page }) => {
+    // const { page, setPage } = useMovieStore()
 
     const handleGoToPrevPage = () => {
         if (page === 0) return
-        setPage(page - 1)
+        prevPage()
         window.scrollTo(0, 0)
     }
     const handleGoToNextPage = () => {
-        setPage(page + 1)
+        nextPage()
         window.scrollTo(0, 0)
     }
 
@@ -34,6 +34,7 @@ const PageSelect = () => {
             </button>
             <ShowPerPage
                 options={[10, 20, 30, 40]}
+                onSelect={goToFirstPage}
                 className="absolute right-2 h-full"
             />
         </div>

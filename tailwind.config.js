@@ -15,7 +15,12 @@ module.exports = {
                 },
             },
             animation: {
-                appear: "appear 0.1s ease-out",
+                appearFast: "appear 0.1s ease-in",
+                appearSlow: "appear 0.2s ease-in",
+            },
+            backdropBlur: {
+                xs: "2px",
+                xxs: "1px",
             },
         },
     },

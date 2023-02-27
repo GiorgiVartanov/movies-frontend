@@ -5,16 +5,19 @@ import { FaSignInAlt } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
+import { toast } from "react-toastify"
 
-import { useStore } from "../store/StoreContext"
+import { useAuthStore } from "../store/context/AuthContext"
 
 import Input from "../components/Input"
 import Button from "../components/Button"
+import Spinner from "../components/Spinner"
 
 const Login = () => {
     const navigate = useNavigate()
 
-    const { loginUser, user } = useStore()
+    const { loginUser, isLoggedIn, isLoading, isError, errorMessage } =
+        useAuthStore()
 
     const schema = yup.object().shape({
         email: yup.string().email("please enter valid email").required(),
@@ -30,19 +33,25 @@ const Login = () => {
         resolver: yupResolver(schema),
     })
 
-    useEffect(() => {
-        if (user) {
-            navigate("/")
-        }
-
-        reset()
-    }, [user, navigate, reset])
-
     const onSubmit = (data) => {
         loginUser(data)
 
         reset()
     }
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate("/")
+        }
+
+        reset()
+    }, [isLoggedIn, navigate, reset])
+
+    useEffect(() => {
+        if (isError) toast(errorMessage)
+    }, [isError, errorMessage])
+
+    if (isLoading) return <Spinner />
 
     return (
         <div className="max-w-sm w-full m-auto px-2 mt-52">

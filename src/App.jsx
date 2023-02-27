@@ -8,6 +8,7 @@ import Favorites from "./pages/Favorites.page"
 import Register from "./pages/Register.page"
 import Login from "./pages/Login.page"
 import Movie from "./pages/Movie.page"
+import Blocked from "./pages/Blocked.page"
 import Footer from "./components/Footer"
 
 const App = () => {
@@ -20,8 +21,12 @@ const App = () => {
                     element={<Main />}
                 />
                 <Route
-                    path="/Favorites"
+                    path="/favorites"
                     element={<Favorites />}
+                />
+                <Route
+                    path="/blocklist"
+                    element={<Blocked />}
                 />
                 <Route
                     path="/login"

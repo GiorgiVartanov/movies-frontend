@@ -5,16 +5,19 @@ import { FaUser } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 import { Link } from "react-router-dom"
+import { toast } from "react-toastify"
 
-import { useStore } from "../store/StoreContext"
+import { useAuthStore } from "../store/context/AuthContext"
 
 import Input from "../components/Input"
 import Button from "../components/Button"
+import Spinner from "../components/Spinner"
 
 const Register = () => {
     const navigate = useNavigate()
 
-    const { registerUser, user } = useStore()
+    const { registerUser, isLoggedIn, isLoading, isError, errorMessage } =
+        useAuthStore()
 
     const schema = yup.object().shape({
         name: yup.string().max(30).required(),
@@ -40,12 +43,16 @@ const Register = () => {
     })
 
     useEffect(() => {
-        if (user) {
+        if (isLoggedIn) {
             navigate("/")
         }
 
         reset()
-    }, [user, navigate, reset])
+    }, [isLoggedIn, navigate, reset])
+
+    useEffect(() => {
+        if (isError) toast(errorMessage)
+    }, [isError, errorMessage])
 
     const onSubmit = async (data) => {
         registerUser(data)
@@ -53,9 +60,7 @@ const Register = () => {
         reset()
     }
 
-    // if (isLoading) {
-    //     return <Spinner />
-    // }
+    if (isLoading) return <Spinner />
 
     return (
         <div className="px-2 mb-1 max-w-sm mx-auto my-32">
