@@ -12,42 +12,42 @@ import Blocked from "./pages/Blocked.page"
 import Footer from "./components/Footer"
 
 const App = () => {
-    return (
-        <div className="font-poppins flex flex-col justify-between h-screen">
-            <Header />
-            <Routes>
-                <Route
-                    path="/"
-                    element={<Main />}
-                />
-                <Route
-                    path="/favorites"
-                    element={<Favorites />}
-                />
-                <Route
-                    path="/blocklist"
-                    element={<Blocked />}
-                />
-                <Route
-                    path="/login"
-                    element={<Login />}
-                />
-                <Route
-                    path="/register"
-                    element={<Register />}
-                />
-                <Route
-                    path="/movie/:id"
-                    element={<Movie />}
-                />
-            </Routes>
-            <Footer />
-            <ToastContainer
-                position="bottom-right"
-                autoClose={5000}
-            />
-        </div>
-    )
+  return (
+    <div className="font-poppins flex flex-col justify-between h-screen">
+      <Header />
+      <Routes>
+        <Route
+          path="/"
+          element={<Main />}
+        />
+        <Route
+          path="/favorites"
+          element={<Favorites />}
+        />
+        <Route
+          path="/blocklist"
+          element={<Blocked />}
+        />
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+        <Route
+          path="/movie/:id"
+          element={<Movie />}
+        />
+      </Routes>
+      <Footer />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+      />
+    </div>
+  )
 }
 
 export default App

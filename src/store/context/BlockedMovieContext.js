@@ -2,19 +2,19 @@ import { useContext, createContext, useEffect, useReducer } from "react"
 
 import { blockedMovieReducer } from "../reducers/blockedMovieReducer"
 import {
-    saveBlockedMoviesToStore,
-    saveBlockedIdsToStore,
-    addMovieToBlocked,
-    setIsLoading,
-    setIsError,
-    setErrorMessage,
-    resetState,
+  saveBlockedMoviesToStore,
+  saveBlockedIdsToStore,
+  addMovieToBlocked,
+  setIsLoading,
+  setIsError,
+  setErrorMessage,
+  resetState,
 } from "../actions/blockedMovieAction"
 import {
-    getBlockedMovies,
-    getBlockedIds,
-    addBlockedMovie,
-    removeBlockedMovie,
+  getBlockedMovies,
+  getBlockedIds,
+  addBlockedMovie,
+  removeBlockedMovie,
 } from "../../utils/services/blockedMovies"
 import { useAuthStore } from "./AuthContext"
 
@@ -23,93 +23,93 @@ export const BlockedMovieContext = createContext()
 export const useBlockedMovieStore = () => useContext(BlockedMovieContext)
 
 const initialState = {
-    blockedMovieIds: [],
-    blockedMovies: [],
-    isLoading: false,
-    isError: false,
-    errorMessage: "",
+  blockedMovieIds: [],
+  blockedMovies: [],
+  isLoading: false,
+  isError: false,
+  errorMessage: "",
 }
 
 export const BlockedMovieProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(blockedMovieReducer, initialState)
+  const [state, dispatch] = useReducer(blockedMovieReducer, initialState)
 
-    const { isLoggedIn, token } = useAuthStore()
+  const { isLoggedIn, token } = useAuthStore()
 
-    useEffect(() => {
-        if (!isLoggedIn) return
+  useEffect(() => {
+    if (!isLoggedIn) return
 
-        const getBlocked = async () => {
-            try {
-                dispatch(setIsLoading(true))
-                const data = await getBlockedMovies(token)
-                dispatch(saveBlockedMoviesToStore(data.data))
-                dispatch(
-                    saveBlockedIdsToStore(
-                        data.data.map((blockedMovie) => blockedMovie._id)
-                    )
-                )
-                dispatch(setIsLoading(false))
-            } catch (error) {
-                dispatch(setIsError(true))
-                dispatch(setErrorMessage(error.message))
-                dispatch(setIsLoading(false))
-            }
-        }
+    const getBlocked = async () => {
+      try {
+        dispatch(setIsLoading(true))
 
-        getBlocked()
-    }, [isLoggedIn, token])
+        const data = await getBlockedMovies(token)
 
-    const blockMovie = async (movieId) => {
-        if (!isLoggedIn) return
-
-        try {
-            const blockedMovie = await addBlockedMovie(movieId, token)
-            dispatch(
-                saveBlockedMoviesToStore([
-                    ...state.blockedMovies,
-                    blockedMovie.data,
-                ])
-            )
-        } catch (error) {
-            dispatch(setIsError(true))
-            dispatch(setErrorMessage(error.message))
-        }
+        dispatch(saveBlockedMoviesToStore(data.data))
+        dispatch(
+          saveBlockedIdsToStore(
+            data.data.map((blockedMovie) => blockedMovie._id)
+          )
+        )
+        dispatch(setIsLoading(false))
+      } catch (error) {
+        dispatch(setIsError(true))
+        dispatch(setErrorMessage(error.message))
+        dispatch(setIsLoading(false))
+      }
     }
 
-    const unblockMovie = async (movieId) => {
-        if (!isLoggedIn) return
+    getBlocked()
+  }, [isLoggedIn, token])
 
-        try {
-            await removeBlockedMovie(movieId, token)
-            dispatch(
-                saveBlockedMoviesToStore(
-                    state.blockedMovies.filter(
-                        (blockedMovie) => blockedMovie._id !== movieId
-                    )
-                )
-            )
-        } catch (error) {
-            dispatch(setIsError(true))
-            dispatch(setErrorMessage(error.message))
-        }
+  const blockMovie = async (movieId) => {
+    if (!isLoggedIn) return
+
+    try {
+      const blockedMovie = await addBlockedMovie(movieId, token)
+
+      dispatch(
+        saveBlockedMoviesToStore([...state.blockedMovies, blockedMovie.data])
+      )
+    } catch (error) {
+      dispatch(setIsError(true))
+      dispatch(setErrorMessage(error.message))
     }
+  }
 
-    const resetBlockedMovieState = () => {
-        dispatch(resetState(initialState))
+  const unblockMovie = async (movieId) => {
+    if (!isLoggedIn) return
+
+    try {
+      await removeBlockedMovie(movieId, token)
+      dispatch(
+        saveBlockedMoviesToStore(
+          state.blockedMovies.filter(
+            (blockedMovie) => blockedMovie._id !== movieId
+          )
+        )
+      )
+    } catch (error) {
+      dispatch(setIsError(true))
+      dispatch(setErrorMessage(error.message))
     }
+  }
 
-    const store = {
-        ...state,
-        blockMovie,
-        unblockMovie,
-        resetBlockedMovieState,
-    }
+  const resetBlockedMovieState = () => {
+    dispatch(resetState(initialState))
+  }
 
-    return (
-        <BlockedMovieContext.Provider value={store}>
-            {children}
-        </BlockedMovieContext.Provider>
-    )
+  const store = {
+    ...state,
+    blockMovie,
+    unblockMovie,
+    resetBlockedMovieState,
+  }
+
+  return (
+    <BlockedMovieContext.Provider value={store}>
+      {children}
+    </BlockedMovieContext.Provider>
+  )
 }
 
 export default BlockedMovieProvider

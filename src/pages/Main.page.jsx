@@ -1,27 +1,33 @@
 import { useMovieStore } from "../store/context/MovieContext"
 
 import MovieList from "../components/MovieList"
-import PageSelect from "../components/PageSelect"
 import SelectGenre from "../components/SelectGenre"
-import Spinner from "../components/Spinner"
 
 const Main = () => {
-    const { movies, amount, fetchMovies, isLoading, isError, errorMessage } =
-        useMovieStore()
+  const {
+    movies,
+    amount,
+    maximumAmountOfMovies,
+    fetchMovies,
+    isLoading,
+    isError,
+    errorMessage,
+  } = useMovieStore()
 
-    return (
-        <div>
-            <SelectGenre />
-            <MovieList
-                movies={movies}
-                fetchMore={fetchMovies}
-                amount={amount}
-                isLoading={isLoading}
-                isError={isError}
-                errorMessage={errorMessage}
-            />
-            {/* <PageSelect /> */}
-        </div>
-    )
+  return (
+    <div className="flex flex-col">
+      <SelectGenre />
+      <MovieList
+        movies={movies}
+        fetchMore={fetchMovies}
+        amount={amount}
+        maximumAmountOfMovies={maximumAmountOfMovies}
+        isLoading={isLoading}
+        isError={isError}
+        errorMessage={errorMessage}
+        emptyMessage=""
+      />
+    </div>
+  )
 }
 export default Main

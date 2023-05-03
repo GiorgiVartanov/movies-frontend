@@ -11,80 +11,78 @@ import { useAuthStore } from "../store/context/AuthContext"
 
 import Input from "../components/Input"
 import Button from "../components/Button"
+import Form from "../components/Form"
 import Spinner from "../components/Spinner"
 
 const Login = () => {
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
-    const { loginUser, isLoggedIn, isLoading, isError, errorMessage } =
-        useAuthStore()
+  const { loginUser, isLoggedIn, isLoading, isError, errorMessage } =
+    useAuthStore()
 
-    const schema = yup.object().shape({
-        email: yup.string().email("please enter valid email").required(),
-        password: yup.string().required(),
-    })
+  const schema = yup.object().shape({
+    email: yup.string().email("please enter valid email").required(),
+    password: yup.string().required(),
+  })
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm({
-        resolver: yupResolver(schema),
-    })
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  })
 
-    const onSubmit = (data) => {
-        loginUser(data)
+  const onSubmit = (data) => {
+    loginUser(data)
 
-        reset()
+    reset()
+  }
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/")
     }
 
-    useEffect(() => {
-        if (isLoggedIn) {
-            navigate("/")
-        }
+    reset()
+  }, [isLoggedIn, navigate, reset])
 
-        reset()
-    }, [isLoggedIn, navigate, reset])
+  useEffect(() => {
+    if (isError) toast(errorMessage)
+  }, [isError, errorMessage])
 
-    useEffect(() => {
-        if (isError) toast(errorMessage)
-    }, [isError, errorMessage])
+  if (isLoading) return <Spinner />
 
-    if (isLoading) return <Spinner />
-
-    return (
-        <div className="max-w-sm w-full m-auto px-2 mt-52">
-            <h1 className="flex mb-4 items-center text-slate-900 gap-1">
-                <FaSignInAlt />
-                <span className="text-lg font-medium">Login</span>
-            </h1>
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="flex flex-col gap-6 mb-1"
-            >
-                <Input
-                    name="email"
-                    placeholder="Enter your email"
-                    errors={errors}
-                    register={register}
-                />
-                <Input
-                    name="password"
-                    placeholder="Enter your password"
-                    errors={errors}
-                    register={register}
-                    type="password"
-                />
-                <Button>login</Button>
-            </form>
-            <Link
-                to="/register"
-                className="underline text-slate-400 text-sm ml-1"
-            >
-                Don't have account yet? register
-            </Link>
-        </div>
-    )
+  return (
+    <div className="max-w-sm w-full m-auto px-2 mt-52">
+      <h1 className="flex mb-4 items-center text-slate-900 gap-1">
+        <FaSignInAlt />
+        <span className="text-lg font-medium">Login</span>
+      </h1>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Input
+          name="email"
+          placeholder="Enter your email"
+          errors={errors}
+          register={register}
+        />
+        <Input
+          name="password"
+          placeholder="Enter your password"
+          errors={errors}
+          register={register}
+          type="password"
+        />
+        <Button>login</Button>
+      </Form>
+      <Link
+        to="/register"
+        className="underline text-slate-400 text-sm ml-1 hover:text-slate-500 transform-all ease-out delay-75 duration-200"
+      >
+        Don't have account yet? register
+      </Link>
+    </div>
+  )
 }
 export default Login
