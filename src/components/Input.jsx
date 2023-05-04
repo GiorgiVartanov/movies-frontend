@@ -20,9 +20,7 @@ const Input = ({
         {...rest}
       />
       {errors && errors[name] ? (
-        <span className="absolute left-1 -bottom-5 text-red-500 text-sm">
-          {errors[name]?.message}
-        </span>
+        <span className=" text-red-500 text-sm">{errors[name]?.message}</span>
       ) : (
         ""
       )}
