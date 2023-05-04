@@ -1,5 +1,4 @@
-import { Link, NavLink } from "react-router-dom"
-import { FaSignInAlt, FaUser } from "react-icons/fa"
+import { Link } from "react-router-dom"
 
 import { useAuthStore } from "../store/context/AuthContext"
 import { useMovieStore } from "../store/context/MovieContext"

@@ -1,12 +1,11 @@
 import { useParams } from "react-router-dom"
-import { useState, useEffect, useRef, Suspense } from "react"
+import { useState, useEffect, useRef } from "react"
 import { GrClose } from "react-icons/gr"
 import { toast } from "react-toastify"
 
 import { useMovieStore } from "../store/context/MovieContext"
 import { useOnClickOutside } from "../hooks/useOnClickOutside"
 
-import Spinner from "../components/Spinner"
 import GenreList from "../components/GenreList"
 
 const Movie = () => {
@@ -14,7 +13,7 @@ const Movie = () => {
 
   const { id } = useParams()
 
-  const { getMovie, isLoading, isError, errorMessage } = useMovieStore()
+  const { getMovie, isError, errorMessage } = useMovieStore()
 
   const [movie, setMovie] = useState()
   const [isImageOpened, setIsImageOpened] = useState(false)

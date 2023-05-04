@@ -1,4 +1,4 @@
-import { useState, Suspense } from "react"
+import { useState } from "react"
 import { toast } from "react-toastify"
 
 import { useFavoriteMovieStore } from "../store/context/FavoriteMovieContext"

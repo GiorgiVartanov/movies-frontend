@@ -4,7 +4,7 @@ import { blockedMovieReducer } from "../reducers/blockedMovieReducer"
 import {
   saveBlockedMoviesToStore,
   saveBlockedIdsToStore,
-  addMovieToBlocked,
+  // addMovieToBlocked,
   setIsLoading,
   setIsError,
   setErrorMessage,
@@ -12,7 +12,7 @@ import {
 } from "../actions/blockedMovieAction"
 import {
   getBlockedMovies,
-  getBlockedIds,
+  // getBlockedIds,
   addBlockedMovie,
   removeBlockedMovie,
 } from "../../utils/services/blockedMovies"
