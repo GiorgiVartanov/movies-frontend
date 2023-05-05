@@ -27,13 +27,15 @@
 
 ## Overview
 
+\*note - first request to backend will take 30 seconds. I am using free tier of <a href="https://render.com">Render</a> to host it
+
 you can see demo on https://movies-spp.netlify.app/
 
 simple Movie website where you can :
 
 - register and log in using email address
-- if signed in add movies to favorites
-- if signed in block movies, so you won't be able to see it
+- while signed in, add movies to favorites
+- while signed in, block movies. so you won't be able to see it
 - search movies by selecting genres
 
 ## Tools
@@ -46,5 +48,5 @@ simple Movie website where you can :
 
 ## Deploy
 
-- <a href="https://www.netlify.com">Netlify</a> (frontend deploy)
-- <a href="https://render.com">Render</a> (backend deploy)
+- <a href="https://www.netlify.com">Netlify</a> (frontend)
+- <a href="https://render.com">Render</a> (backend)
